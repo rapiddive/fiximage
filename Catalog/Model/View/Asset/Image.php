@@ -9,13 +9,40 @@
 namespace Rapiddive\FixImage\Catalog\Model\View\Asset;
 
 use Magento\Catalog\Model\Product\Media\ConfigInterface;
-use Magento\Catalog\Model\View\Asset\Image as MagentoImage;
 use Magento\Framework\Encryption\Encryptor;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\View\Asset\ContextInterface;
+use Magento\Framework\View\Asset\LocalInterface;
 
-class Image extends MagentoImage
+/**
+ * A locally available image file asset that can be referred with a file path
+ *
+ * This class is a value object with lazy loading of some of its data (content, physical file path)
+ */
+class Image implements LocalInterface
 {
+    /**
+     * Image type of image (thumbnail,small_image,image,swatch_image,swatch_thumb)
+     *
+     * @var string
+     */
+    private $sourceContentType;
+
+    /**
+     * @var string
+     */
+    private $filePath;
+
+    /**
+     * @var string
+     */
+    private $contentType = 'image';
+
+    /**
+     * @var ContextInterface
+     */
+    private $context;
+
     /**
      * Misc image params depend on size, transparency, quality, watermark etc.
      *
@@ -24,9 +51,10 @@ class Image extends MagentoImage
     private $miscParams;
 
     /**
-     * @var ContextInterface
+     * @var ConfigInterface
      */
-    private $context;
+    private $mediaConfig;
+
     /**
      * @var EncryptorInterface
      */
@@ -34,10 +62,11 @@ class Image extends MagentoImage
 
     /**
      * Image constructor.
+     *
      * @param ConfigInterface $mediaConfig
      * @param ContextInterface $context
      * @param EncryptorInterface $encryptor
-     * @param $filePath
+     * @param string $filePath
      * @param array $miscParams
      */
     public function __construct(
@@ -47,8 +76,16 @@ class Image extends MagentoImage
         $filePath,
         array $miscParams
     ) {
-        parent::__construct($mediaConfig, $context, $encryptor, $filePath, $miscParams);
+        if (isset($miscParams['image_type'])) {
+            $this->sourceContentType = $miscParams['image_type'];
+            unset($miscParams['image_type']);
+        } else {
+            $this->sourceContentType = $this->contentType;
+        }
+        $this->mediaConfig = $mediaConfig;
         $this->context = $context;
+        $this->filePath = $filePath;
+        $this->miscParams = $miscParams;
         $this->encryptor = $encryptor;
     }
 
@@ -85,6 +122,14 @@ class Image extends MagentoImage
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getModule()
+    {
+        return 'cache';
+    }
+
+    /**
      * Retrieve part of path based on misc params
      *
      * @return string
@@ -116,5 +161,65 @@ class Image extends MagentoImage
             ? 'rgb' . implode(',', $miscParams['background'])
             : 'nobackground';
         return $miscParams;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilePath()
+    {
+        return $this->filePath;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContentType()
+    {
+        return $this->contentType;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPath()
+    {
+        return $this->context->getPath() . DIRECTORY_SEPARATOR . $this->getImageInfo();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSourceFile()
+    {
+        return $this->mediaConfig->getBaseMediaPath()
+            . DIRECTORY_SEPARATOR . ltrim($this->getFilePath(), DIRECTORY_SEPARATOR);
+    }
+
+    /**
+     * Get source content type
+     *
+     * @return string
+     */
+    public function getSourceContentType()
+    {
+        return $this->sourceContentType;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContent()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return ContextInterface
+     */
+    public function getContext()
+    {
+        return $this->context;
     }
 }
