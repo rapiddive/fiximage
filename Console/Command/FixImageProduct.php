@@ -134,9 +134,8 @@ class FixImageProduct extends Command
                     $progress->advance();
                 }
             }
-            return Cli::RETURN_SUCCESS;
+
         } catch (Exception $e) {
-            var_dump($productsArray);
             $output->writeln("<error>{$e->getMessage()}</error>");
             // we must have an exit code higher than zero to indicate something was wrong
             return Cli::RETURN_FAILURE;
