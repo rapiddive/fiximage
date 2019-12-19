@@ -2,8 +2,8 @@
 /**
  * ImagesResizeCommand
  *
- * @copyright Copyright © 2019 Firebear Studio. All rights reserved.
- * @author    Firebear Studio <fbeardev@gmail.com>
+ * @copyright Copyright © 2019 RapidDive Tech. All rights reserved.
+ * @author    Rapiddive Tech <rapiddive1@gmail.com>
  */
 
 namespace Rapidive\FixImage\Console\Command;

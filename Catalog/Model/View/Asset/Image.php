@@ -2,8 +2,8 @@
 /**
  * Image
  *
- * @copyright Copyright © 2019 Firebear Studio. All rights reserved.
- * @author    fbeardev@gmail.com
+ * @copyright Copyright © 2019 RapidDive Tech. All rights reserved.
+ * @author    Rapiddive Tech <rapiddive1@gmail.com>
  */
 
 namespace Rapiddive\FixImage\Catalog\Model\View\Asset;
