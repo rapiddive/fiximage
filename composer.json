@@ -1,5 +1,5 @@
 {
-	"name" : "rapiddive/fiximage",
+	"name" : "rapidive/fiximage",
 	"description" : "Fix image if the cache is not available then use image directly",
 	"require" : {
 		"php" : "~5.5.0|~5.6.0|~7.0.0|~7.1",
@@ -23,7 +23,7 @@
 			"registration.php"
 		],
 		"psr-4" : {
-			"Rapiddive\\FixImage\\" : ""
+			"Rapidive\\FixImage\\" : ""
 		}
 	}
 }

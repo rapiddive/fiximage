@@ -2,6 +2,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Rapiddive_FixImage',
+    'Rapidive_FixImage',
     __DIR__
 );

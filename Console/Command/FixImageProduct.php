@@ -90,7 +90,7 @@ class FixImageProduct extends Command
                 __('comma separated product sku')
             )
         ];
-        $this->setName('firebear:image:resize')
+        $this->setName('rapidive:image:resize')
             ->setDescription('Resize of product Images')
             ->setDefinition($options);
 
