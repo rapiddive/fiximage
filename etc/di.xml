@@ -9,4 +9,8 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\Catalog\Model\View\Asset\Image"
                 type="Rapiddive\FixImage\Catalog\Model\View\Asset\Image" />
+    <preference for="Magento\Catalog\Model\Product\Image\ParamsBuilder"
+                type="Rapiddive\FixImage\Catalog\Model\Product\Image\ParamsBuilder"/>
+    <preference for="Magento\MediaStorage\Service\ImageResize"
+                type="Rapiddive\FixImage\MediaStorage\Service\ImageResize"/>
 </config>
